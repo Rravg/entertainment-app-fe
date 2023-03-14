@@ -26,10 +26,9 @@ function App() {
 
 function Layout() {
     return (
-        <div>
-            <h1>This will always be here</h1>
+        <>
             <Outlet />
-        </div>
+        </>
     );
 }
 
