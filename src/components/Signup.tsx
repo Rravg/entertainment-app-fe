@@ -12,10 +12,23 @@ const Container = styled.div`
 
     height: fit-content;
     width: 90%;
-
     max-width: 327px;
 
     margin-top: 132px;
+
+    @media (min-width: 376px) {
+        padding: 32px;
+        max-width: 327px;
+
+        margin-top: 178px;
+    }
+
+    @media (min-width: 769px) {
+        padding: 32px;
+        max-width: 327px;
+
+        margin-top: 187px;
+    }
 `;
 
 const Title = styled.h1`
@@ -81,6 +94,14 @@ const Logo = styled.img`
     position: absolute;
     top: calc(48px);
     left: calc(50% - 16px);
+
+    @media (min-width: 376px) {
+        top: calc(88px);
+    }
+
+    @media (min-width: 769px) {
+        top: calc(78px);
+    }
 `;
 
 export default function Signup(): JSX.Element {

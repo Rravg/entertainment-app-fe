@@ -8,6 +8,8 @@ import { Route, Routes, Outlet } from "react-router-dom";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import NoMatch from "./components/NoMatch";
+import NavBar from "./components/NavBar";
+import Main from "./components/Main";
 
 function App() {
     return (
@@ -25,18 +27,15 @@ function App() {
 }
 
 function Layout() {
-    return (
-        <>
-            <Outlet />
-        </>
-    );
+    return <Outlet />;
 }
 
 function Home() {
     return (
-        <div>
-            <h2>Home</h2>
-        </div>
+        <>
+            <NavBar />
+            <Main />
+        </>
     );
 }
 
