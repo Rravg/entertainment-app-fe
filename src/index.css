@@ -17,9 +17,9 @@
     overflow-y: auto;
 }
 
-/* *::-webkit-scrollbar {
+*::-webkit-scrollbar {
     display: none;
-} */
+}
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
 ul[role="list"],
@@ -86,6 +86,22 @@ svg {
     font-weight: 300;
     font-size: 24px;
     line-height: 30px;
+}
+
+.heading-s {
+    font-family: "Outfit";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.heading-xs {
+    font-family: "Outfit";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 23px;
 }
 
 .body-m {

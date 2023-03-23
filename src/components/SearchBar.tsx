@@ -4,12 +4,15 @@ import icon from "../assets/icon-search.svg";
 const Container = styled.div`
     display: flex;
     column-gap: 16px;
+    margin-bottom: 24px;
 
     @media (min-width: 376px) {
         column-gap: 24px;
+        margin-bottom: 34px;
     }
 
     @media (min-width: 769px) {
+        margin-bottom: 34px;
     }
 `;
 

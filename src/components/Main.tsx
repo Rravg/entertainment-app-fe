@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import SearchBar from "./SearchBar";
+import Trending from "./Trending";
 
 const Container = styled.div`
     width: 100%;
@@ -20,6 +21,7 @@ export default function Main(): JSX.Element {
     return (
         <Container>
             <SearchBar />
+            <Trending />
         </Container>
     );
 }
