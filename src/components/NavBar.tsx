@@ -11,13 +11,13 @@ const Navigation = styled.nav`
     justify-content: space-between;
     align-items: center;
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         border-radius: 10px;
         padding: 0px 24px;
         height: 72px;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
         height: 100%;
         padding: 32px 28px;
 
@@ -32,12 +32,12 @@ const Logo = styled.img`
     width: 25px;
     height: 20px;
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         width: 32px;
         height: 26px;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
     }
 `;
 
@@ -45,11 +45,11 @@ const IconContainer = styled.div`
     display: flex;
     column-gap: 24px;
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         column-gap: 32px;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
         flex-direction: column;
         row-gap: 40px;
     }
@@ -60,12 +60,12 @@ const Icon = styled.svg`
     fill: #5a698f;
 
     &:hover {
-        fill: var(--pure-white);
+        fill: var(--red);
     }
 `;
 
 const AvatarContainer = styled.div`
-    @media (min-width: 769px) {
+@media (min-width: 1440px) {
         margin-top: auto;
     }
 `;
@@ -77,12 +77,12 @@ const Avatar = styled.img`
     border: 1px solid var(--pure-white);
     border-radius: 50%;
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         width: 32px;
         height: 32px;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
         width: 40px;
         height: 40px;
     }

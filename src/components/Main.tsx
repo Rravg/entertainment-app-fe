@@ -9,11 +9,11 @@ const Container = styled.div`
 
     padding: 0px 16px;
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
+        padding: 0px;
     }
 
-    @media (min-width: 769px) {
-        padding-top: 24px;
+    @media (min-width: 1440px) {
     }
 `;
 

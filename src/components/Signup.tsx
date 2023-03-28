@@ -16,14 +16,14 @@ const Container = styled.div`
 
     margin-top: 132px;
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         padding: 32px;
         max-width: 327px;
 
         margin-top: 178px;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
         padding: 32px;
         max-width: 327px;
 
@@ -95,11 +95,11 @@ const Logo = styled.img`
     top: calc(48px);
     left: calc(50% - 16px);
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         top: calc(88px);
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
         top: calc(78px);
     }
 `;

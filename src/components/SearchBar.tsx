@@ -6,12 +6,12 @@ const Container = styled.div`
     column-gap: 16px;
     margin-bottom: 24px;
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         column-gap: 24px;
         margin-bottom: 34px;
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
         margin-bottom: 34px;
     }
 `;
@@ -39,7 +39,7 @@ const Input = styled.input`
         opacity: 0.5;
     }
 
-    @media (min-width: 376px) {
+    @media (min-width: 768px) {
         font-size: 24px;
         line-height: 30px;
 
@@ -49,7 +49,7 @@ const Input = styled.input`
         }
     }
 
-    @media (min-width: 769px) {
+    @media (min-width: 1440px) {
     }
 `;
 
