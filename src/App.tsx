@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 // React Router
@@ -31,10 +31,11 @@ function Layout() {
 }
 
 function Home() {
+    const [currentPage, setCurrentPage] = useState<Pages>({ page: "Home" });
     return (
         <>
-            <NavBar />
-            <Main />
+            <NavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Main currentPage={currentPage} />
         </>
     );
 }

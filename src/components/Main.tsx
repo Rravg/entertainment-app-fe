@@ -14,10 +14,15 @@ const Container = styled.div`
     }
 
     @media (min-width: 1440px) {
+        padding-top: 32px;
     }
 `;
 
-export default function Main(): JSX.Element {
+interface Props {
+    currentPage: Pages;
+}
+
+export default function Main({ currentPage }: Props): JSX.Element {
     return (
         <Container>
             <SearchBar />
