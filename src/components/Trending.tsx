@@ -2,14 +2,12 @@ import styled from "styled-components";
 import { useRef } from "react";
 
 // Hooks
-
 import { useDraggable } from "react-use-draggable-scroll";
 
 // Components
 import TrendingThumbnail from "./TrendingThumbnail";
 
 // Import images
-
 import beyond_earth_small from "../assets/thumbnails/beyond-earth/trending/small.jpg";
 import beyond_earth_large from "../assets/thumbnails/beyond-earth/trending/large.jpg";
 
@@ -25,7 +23,16 @@ import img_1998_large from "../assets/thumbnails/1998/trending/large.jpg";
 import dark_side_of_the_moon_small from "../assets/thumbnails/dark-side-of-the-moon/trending/small.jpg";
 import dark_side_of_the_moon_large from "../assets/thumbnails/dark-side-of-the-moon/trending/large.jpg";
 
-const Container = styled.div``;
+const Container = styled.div`
+    margin-bottom: 24px;
+
+    @media (min-width: 768px) {
+        margin-bottom: 40px;
+    }
+
+    @media (min-width: 1440px) {
+    }
+`;
 
 const Section = styled.h1`
     color: var(--pure-white);

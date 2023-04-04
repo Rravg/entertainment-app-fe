@@ -14,13 +14,15 @@ const ImageContainer = styled.div`
         margin-right: 0px;
     }
 
-    &:hover {
-        & > img {
-            opacity: 0.5;
-        }
+    @media (min-width: 1440px) {
+        &:hover {
+            & > img {
+                opacity: 0.5;
+            }
 
-        & .play-button {
-            opacity: 1;
+            & .play-button {
+                opacity: 1;
+            }
         }
     }
 `;

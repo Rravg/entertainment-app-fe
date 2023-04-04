@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Body from "./Body";
 
 import SearchBar from "./SearchBar";
 import Trending from "./Trending";
@@ -27,6 +28,7 @@ export default function Main({ currentPage }: Props): JSX.Element {
         <Container>
             <SearchBar />
             <Trending />
+            <Body />
         </Container>
     );
 }

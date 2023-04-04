@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.svg";
 import avatar from "../assets/image-avatar.png";
@@ -61,8 +60,10 @@ const Icon = styled.svg<{ selected: boolean }>`
     cursor: pointer;
     fill: ${(props) => (props.selected ? "var(--pure-white)" : "var(--greyish-blue)")};
 
-    &:hover {
-        fill: var(--red) !important;
+    @media (min-width: 1440px) {
+        &:hover {
+            fill: var(--red) !important;
+        }
     }
 `;
 
