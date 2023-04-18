@@ -27,8 +27,8 @@ export default function Main({ currentPage }: Props): JSX.Element {
     return (
         <Container>
             <SearchBar />
-            <Trending />
-            <Body />
+            {currentPage.page === "Home" && <Trending />}
+            <Body currentPage={currentPage} />
         </Container>
     );
 }

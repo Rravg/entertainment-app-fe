@@ -62,12 +62,19 @@ const IconContainer = styled.div`
     justify-content: center;
     align-items: center;
 
-    &:hover {
-        background-color: var(--pure-white);
-        opacity: 1;
+    @media (min-width: 768px) {
+        top: 16px;
+        right: 24px;
+    }
 
-        & > svg {
-            stroke: var(--dark-blue);
+    @media (min-width: 1440px) {
+        &:hover {
+            background-color: var(--pure-white);
+            opacity: 1;
+
+            & > svg {
+                stroke: var(--dark-blue);
+            }
         }
     }
 `;
@@ -160,8 +167,8 @@ const Play = styled.div`
 `;
 
 interface Props {
-    imageLarge: string;
-    imageSmall: string;
+    imageLarge: string | undefined;
+    imageSmall: string | undefined;
     title: string;
     year: string;
     category: "Movie" | "TV Series";
@@ -176,7 +183,7 @@ export default function TrendingThumbnail({
     category,
     rating,
 }: Props): JSX.Element {
-    const tabletSize = useMediaQuery("(min-width: 376px)");
+    const tabletSize = useMediaQuery("(min-width: 768px)");
     return (
         <ImageContainer>
             <Image src={tabletSize ? imageLarge : imageSmall} alt="" />
