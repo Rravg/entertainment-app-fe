@@ -105,6 +105,14 @@ const Logo = styled.img`
     }
 `;
 
+const ErrorMessage = styled.h2`
+    color: var(--red);
+    position: absolute;
+
+    right: 17px;
+    bottom: 18px;
+`;
+
 export default function Login(): JSX.Element {
     return (
         <Container>
@@ -131,7 +139,7 @@ function LoginForm(): JSX.Element {
                 />
             </div>
 
-            <div style={{ marginBottom: "40px" }}>
+            <div style={{ marginBottom: "40px", position: "relative" }}>
                 <Input
                     type="text"
                     name="password"
@@ -139,6 +147,7 @@ function LoginForm(): JSX.Element {
                     required
                     className="body-m"
                 />
+                {/* <ErrorMessage className="body-s">Can't be empty</ErrorMessage> */}
             </div>
 
             <div style={{ marginBottom: "24px" }}>

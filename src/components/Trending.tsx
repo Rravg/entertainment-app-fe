@@ -82,6 +82,7 @@ export default function Trending(): JSX.Element {
                                 year={item.year.toFixed()}
                                 category={item.category === "TV Series" ? "TV Series" : "Movie"}
                                 rating={item.rating}
+                                isBookmarked={item.isBookmarked}
                             />
                         );
                     }

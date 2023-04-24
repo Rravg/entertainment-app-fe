@@ -112,4 +112,12 @@ svg {
     line-height: 19px;
 }
 
+.body-s {
+    font-family: "Outfit";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 16px;
+}
+
 /* END OF CUSTOM CLASSES */

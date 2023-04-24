@@ -4,6 +4,7 @@ import icon_category_movie from "../assets/icon-category-movie.svg";
 import icon_category_tv from "../assets/icon-category-tv.svg";
 
 import useMediaQuery from "../Hooks/useMediaQuery";
+import BookmarkIcon from "./BookmarkIcon";
 
 const Container = styled.div`
     margin: 0 auto;
@@ -34,9 +35,8 @@ const IconContainer = styled.div`
 
     z-index: 2;
     position: absolute;
-    background-color: var(--dark-blue);
+    background-color: rgba(16, 20, 30, 0.5);
     mix-blend-mode: normal;
-    opacity: 0.5;
 
     top: 8px;
     right: 8px;
@@ -64,10 +64,6 @@ const IconContainer = styled.div`
             }
         }
     }
-`;
-
-const Icon = styled.svg`
-    stroke: var(--pure-white);
 `;
 
 const Play = styled.div`
@@ -171,13 +167,7 @@ export default function Thumbnail({ item }: Props): JSX.Element {
         <Container>
             {thumbnailImage}
             <IconContainer>
-                <Icon width="12" height="14" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="m10.518.75.399 12.214-5.084-4.24-4.535 4.426L.75 1.036l9.768-.285Z"
-                        strokeWidth={1.5}
-                        fill="none"
-                    />
-                </Icon>
+                <BookmarkIcon isBookmarked={item.isBookmarked} />
             </IconContainer>
             <Play className="play-button">
                 <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
