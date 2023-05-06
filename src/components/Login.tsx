@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
+import { FormEvent, useState, useRef } from "react";
+import useEventListener from "../Hooks/useEventListener";
+import UserService from "../services/UserService";
 
 const Container = styled.div`
     background-color: var(--semi-dark-blue);
@@ -39,7 +42,7 @@ const Title = styled.h1`
 const Input = styled.input`
     border: none;
     outline: none;
-    
+
     background-color: var(--semi-dark-blue);
     caret-color: var(--red);
     color: var(--pure-white);
@@ -127,27 +130,78 @@ export default function Login(): JSX.Element {
 }
 
 function LoginForm(): JSX.Element {
+    const [showEmailError, setShowEmailError] = useState(false);
+    const [showPasswordError, setShowPasswordError] = useState(false);
+
+    const inputEmailRef = useRef<HTMLInputElement>(null);
+    const inputPasswordRef = useRef<HTMLInputElement>(null);
+
+    const onEmailClick = (event: Event) => {
+        if (showEmailError) {
+            setShowEmailError(false);
+        }
+    };
+
+    const onPasswordClick = (event: Event) => {
+        if (showPasswordError) {
+            setShowPasswordError(false);
+        }
+    };
+
+    useEventListener("click", onEmailClick, inputEmailRef);
+    useEventListener("click", onPasswordClick, inputPasswordRef);
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const target = e.target as typeof e.target & {
+            email: { value: string };
+            password: { value: string };
+        };
+
+        if (target.email.value === "") {
+            setShowEmailError(true);
+            return;
+        }
+
+        if (target.password.value === "") {
+            setShowPasswordError(true);
+            return;
+        }
+
+        const user: User = {
+            email: target.email.value,
+            password: target.password.value,
+        };
+
+        try {
+            let response = await UserService.login(user);
+        } catch (error) {}
+    };
+
     return (
-        <form action="/login" method="post">
-            <div style={{ marginBottom: "24px" }}>
+        <form onSubmit={handleSubmit} action="/login" method="post">
+            <div style={{ marginBottom: "24px", position: "relative" }}>
                 <Input
+                    ref={inputEmailRef}
                     type="text"
                     name="email"
                     placeholder="Email address"
-                    required
                     className="body-m"
                 />
+                {showEmailError && <ErrorMessage className="body-s">Can't be empty</ErrorMessage>}
             </div>
 
             <div style={{ marginBottom: "40px", position: "relative" }}>
                 <Input
+                    ref={inputPasswordRef}
                     type="text"
                     name="password"
                     placeholder="Password"
-                    required
                     className="body-m"
                 />
-                {/* <ErrorMessage className="body-s">Can't be empty</ErrorMessage> */}
+                {showPasswordError && (
+                    <ErrorMessage className="body-s">Can't be empty</ErrorMessage>
+                )}
             </div>
 
             <div style={{ marginBottom: "24px" }}>

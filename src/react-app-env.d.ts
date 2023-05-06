@@ -22,3 +22,8 @@ interface Item {
     isBookmarked: boolean;
     isTrending: boolean
 }
+
+interface User {
+    email: string;
+    password: string;
+}
