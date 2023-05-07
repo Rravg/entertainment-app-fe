@@ -9,4 +9,17 @@ export default class UserService {
             }
         })
     }
+
+    public static signup(user: User) {
+
+        return axios.post("http://localhost:8080/signup", user, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+    public static logout(user: User) {
+        return axios.get("http://localhost:8080/logout");
+    }
 }

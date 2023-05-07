@@ -39,7 +39,7 @@ const Title = styled.h1`
     margin-bottom: 40px;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ error: boolean }>`
     border: none;
     outline: none;
 
@@ -52,7 +52,8 @@ const Input = styled.input`
     padding-left: 16px;
     padding-bottom: 18px;
 
-    border-bottom: 1px solid var(--greyish-blue);
+    border-bottom: ${(props) =>
+        props.error ? "1px solid var(--red)" : "1px solid var(--greyish-blue)"};
 
     &:focus {
         border-bottom: 1px solid var(--pure-white);
@@ -187,6 +188,7 @@ function LoginForm(): JSX.Element {
                     name="email"
                     placeholder="Email address"
                     className="body-m"
+                    error={showEmailError}
                 />
                 {showEmailError && <ErrorMessage className="body-s">Can't be empty</ErrorMessage>}
             </div>
@@ -198,6 +200,7 @@ function LoginForm(): JSX.Element {
                     name="password"
                     placeholder="Password"
                     className="body-m"
+                    error={showPasswordError}
                 />
                 {showPasswordError && (
                     <ErrorMessage className="body-s">Can't be empty</ErrorMessage>
