@@ -13,6 +13,8 @@ const Navigation = styled.nav`
     justify-content: space-between;
     align-items: center;
 
+    overflow: visible;
+
     @media (min-width: 768px) {
         border-radius: 10px;
         padding: 0px 24px;
@@ -70,7 +72,10 @@ const Icon = styled.svg<{ selected: boolean }>`
 
 const AvatarContainer = styled.div`
     cursor: pointer;
-    /* position: relative; */
+    position: relative;
+    display: inline-block;
+
+    overflow: visible;
 
     @media (min-width: 1440px) {
         margin-top: auto;
@@ -99,21 +104,24 @@ const FloatMenu = styled.div`
     position: absolute;
     z-index: 1;
 
-    right: 10px;
+    right: 130%;
+    top: 0;
+
     padding: 4px;
     font-size: 12px;
-
     border-radius: 3px;
     border: 1px solid var(--pure-white);
     background-color: var(--semi-dark-blue);
 
-    top: 12%;
     display: block;
 
     @media (min-width: 768px) {
     }
 
     @media (min-width: 1440px) {
+        top: 0px;
+        left: 150%;
+        width: min-content;
         &:hover {
             border: 1px solid var(--red);
         }
@@ -123,6 +131,10 @@ const FloatMenu = styled.div`
 const MenuItem = styled.a`
     text-decoration: none;
     color: white;
+
+    @media (min-width: 1440px) {
+        font-size: 18px;
+    }
 `;
 
 interface Props {
