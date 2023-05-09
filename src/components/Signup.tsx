@@ -155,6 +155,10 @@ function SignUpForm(): JSX.Element {
         if (confirmPasswordError) {
             setConfirmPasswordError(false);
         }
+
+        if (notMatchingPasswordsError) {
+            setNotMatchingPasswordsError(false);
+        }
     };
 
     useEventListener("click", onEmailClick, inputEmailRef);
@@ -219,7 +223,7 @@ function SignUpForm(): JSX.Element {
             <div style={{ marginBottom: "24px", position: "relative" }}>
                 <Input
                     ref={inputPasswordRef}
-                    type="text"
+                    type="password"
                     name="password"
                     placeholder="Password"
                     className="body-m"
@@ -233,7 +237,7 @@ function SignUpForm(): JSX.Element {
             <div style={{ marginBottom: "40px", position: "relative" }}>
                 <Input
                     ref={confirmPasswordRef}
-                    type="text"
+                    type="password"
                     name="repeatPassword"
                     placeholder="Repeat Password"
                     className="body-m"
@@ -241,6 +245,9 @@ function SignUpForm(): JSX.Element {
                 />
                 {confirmPasswordError && (
                     <ErrorMessage className="body-s">Can't be empty</ErrorMessage>
+                )}
+                {notMatchingPasswordsError && (
+                    <ErrorMessage className="body-s">Password does not match</ErrorMessage>
                 )}
             </div>
 

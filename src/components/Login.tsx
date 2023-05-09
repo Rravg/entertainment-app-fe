@@ -196,7 +196,7 @@ function LoginForm(): JSX.Element {
             <div style={{ marginBottom: "40px", position: "relative" }}>
                 <Input
                     ref={inputPasswordRef}
-                    type="text"
+                    type="password"
                     name="password"
                     placeholder="Password"
                     className="body-m"
