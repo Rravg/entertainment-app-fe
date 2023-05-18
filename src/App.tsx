@@ -34,14 +34,14 @@ function Layout() {
 function Home() {
     const [currentPage, setCurrentPage] = useState<Pages>({ page: "Home" });
     return (
-        // <AuthProvider>
-        //     <RequireAuth>
+        <AuthProvider>
+            <RequireAuth>
                 <>
                     <NavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
                     <Main currentPage={currentPage} />
                 </>
-        //     </RequireAuth>
-        // </AuthProvider>
+            </RequireAuth>
+        </AuthProvider>
     );
 }
 

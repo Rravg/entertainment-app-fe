@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
 import { FormEvent, useState, useRef } from "react";
@@ -135,9 +135,18 @@ function SignUpForm(): JSX.Element {
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [notMatchingPasswordsError, setNotMatchingPasswordsError] = useState(false);
 
+    // Handle error messages with stateful variables?
+    const [currentEmailError, setCurrentEmailError] = useState("Can't be empty");
+
+    const navigate = useNavigate();
+
     const inputEmailRef = useRef<HTMLInputElement>(null);
     const inputPasswordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
+    function isValidEmail(email: string) {
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    }
 
     const onEmailClick = (event: Event) => {
         if (showEmailError) {
@@ -175,6 +184,14 @@ function SignUpForm(): JSX.Element {
         };
 
         if (target.email.value === "") {
+            setCurrentEmailError("Can't be empty");
+            setShowEmailError(true);
+            return;
+        }
+
+        // Check if email format is valid
+        if (!isValidEmail(target.email.value)) {
+            setCurrentEmailError("Invalid email format");
             setShowEmailError(true);
             return;
         }
@@ -202,8 +219,16 @@ function SignUpForm(): JSX.Element {
         };
 
         try {
-            let response = await UserService.signup(user);
-        } catch (error) {}
+            // Get response from form input
+            await UserService.signup(user);
+
+            // Redirect player to log in page after created response
+            navigate("/login");
+        } catch (error) {
+            // Shows error of taken email
+            setCurrentEmailError("Email is taken");
+            setShowEmailError(true);
+        }
     };
 
     return (
@@ -217,7 +242,9 @@ function SignUpForm(): JSX.Element {
                     className="body-m"
                     error={showEmailError}
                 />
-                {showEmailError && <ErrorMessage className="body-s">Can't be empty</ErrorMessage>}
+                {showEmailError && (
+                    <ErrorMessage className="body-s">{currentEmailError}</ErrorMessage>
+                )}
             </div>
 
             <div style={{ marginBottom: "24px", position: "relative" }}>

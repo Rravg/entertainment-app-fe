@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
 import { FormEvent, useState, useRef } from "react";
@@ -131,11 +131,16 @@ export default function Login(): JSX.Element {
 }
 
 function LoginForm(): JSX.Element {
+    // Stateful variables
     const [showEmailError, setShowEmailError] = useState(false);
     const [showPasswordError, setShowPasswordError] = useState(false);
-
     const inputEmailRef = useRef<HTMLInputElement>(null);
     const inputPasswordRef = useRef<HTMLInputElement>(null);
+
+    // Handle error messages with stateful variables?
+    const [currentEmailError, setCurrentEmailError] = useState("Can't be empty");
+
+    const navigate = useNavigate();
 
     const onEmailClick = (event: Event) => {
         if (showEmailError) {
@@ -152,6 +157,10 @@ function LoginForm(): JSX.Element {
     useEventListener("click", onEmailClick, inputEmailRef);
     useEventListener("click", onPasswordClick, inputPasswordRef);
 
+    function isValidEmail(email: string) {
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    }
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const target = e.target as typeof e.target & {
@@ -159,11 +168,21 @@ function LoginForm(): JSX.Element {
             password: { value: string };
         };
 
+        // Check if email input field is not empty
         if (target.email.value === "") {
+            setCurrentEmailError("Can't be empty");
             setShowEmailError(true);
             return;
         }
 
+        // Check if email format is valid
+        if (!isValidEmail(target.email.value)) {
+            setCurrentEmailError("Invalid email format");
+            setShowEmailError(true);
+            return;
+        }
+
+        // Check if password input field is not empty
         if (target.password.value === "") {
             setShowPasswordError(true);
             return;
@@ -175,8 +194,16 @@ function LoginForm(): JSX.Element {
         };
 
         try {
-            let response = await UserService.login(user);
-        } catch (error) {}
+            // Get response from form input
+            await UserService.login(user);
+
+            // Redirect user to main page after successful login
+            navigate("/");
+        } catch (error) {
+            // Shows error of incorrect credentials
+            setCurrentEmailError("Incorrect credentials");
+            setShowEmailError(true);
+        }
     };
 
     return (
@@ -190,7 +217,9 @@ function LoginForm(): JSX.Element {
                     className="body-m"
                     error={showEmailError}
                 />
-                {showEmailError && <ErrorMessage className="body-s">Can't be empty</ErrorMessage>}
+                {showEmailError && (
+                    <ErrorMessage className="body-s">{currentEmailError}</ErrorMessage>
+                )}
             </div>
 
             <div style={{ marginBottom: "40px", position: "relative" }}>
