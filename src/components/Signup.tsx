@@ -63,6 +63,18 @@ const Input = styled.input<{ error: boolean }>`
         mix-blend-mode: normal;
         opacity: 0.5;
     }
+
+    /* Change autocomplete styles */
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+        border: none;
+        border-bottom: ${(props) =>
+            props.error ? "1px solid var(--red)" : "1px solid var(--greyish-blue)"};
+        -webkit-text-fill-color: var(--pure-white);
+        -webkit-box-shadow: 0 0 0px 1000px var(--semi-dark-blue) inset;
+        transition: background-color 5000s ease-in-out 0s;
+    }
 `;
 
 const Button = styled.button`
@@ -130,24 +142,19 @@ export default function Signup(): JSX.Element {
 }
 
 function SignUpForm(): JSX.Element {
+    // Error message Stateful Variables
     const [showEmailError, setShowEmailError] = useState(false);
     const [showPasswordError, setShowPasswordError] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState(false);
     const [notMatchingPasswordsError, setNotMatchingPasswordsError] = useState(false);
-
-    // Handle error messages with stateful variables?
     const [currentEmailError, setCurrentEmailError] = useState("Can't be empty");
 
-    const navigate = useNavigate();
-
+    // Input Refs
     const inputEmailRef = useRef<HTMLInputElement>(null);
     const inputPasswordRef = useRef<HTMLInputElement>(null);
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
-    function isValidEmail(email: string) {
-        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
-    }
-
+    // Input Refs functions
     const onEmailClick = (event: Event) => {
         if (showEmailError) {
             setShowEmailError(false);
@@ -174,6 +181,15 @@ function SignUpForm(): JSX.Element {
     useEventListener("click", onPasswordClick, inputPasswordRef);
     useEventListener("click", onConfirmPasswordClick, confirmPasswordRef);
 
+    // Hooks
+    const navigate = useNavigate();
+
+    // RegExp email check
+    function isValidEmail(email: string) {
+        return /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    }
+
+    // On Sign up submit function
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 

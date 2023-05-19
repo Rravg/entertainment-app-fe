@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/logo.svg";
 import { FormEvent, useState, useRef } from "react";
 import useEventListener from "../Hooks/useEventListener";
 import UserService from "../services/UserService";
+import { useAuth } from "./AuthProvider";
 
 const Container = styled.div`
     background-color: var(--semi-dark-blue);
@@ -64,6 +65,18 @@ const Input = styled.input<{ error: boolean }>`
         mix-blend-mode: normal;
         opacity: 0.5;
     }
+
+    /* Change autocomplete styles */
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+        border: none;
+        border-bottom: ${(props) =>
+            props.error ? "1px solid var(--red)" : "1px solid var(--greyish-blue)"};
+        -webkit-text-fill-color: var(--pure-white);
+        -webkit-box-shadow: 0 0 0px 1000px var(--semi-dark-blue) inset;
+        transition: background-color 5000s ease-in-out 0s;
+    }
 `;
 
 const Button = styled.button`
@@ -117,6 +130,12 @@ const ErrorMessage = styled.h2`
     bottom: 18px;
 `;
 
+const CredentialsError = styled.h2`
+    color: var(--red);
+    margin-bottom: 8px;
+    text-align: right;
+`;
+
 export default function Login(): JSX.Element {
     return (
         <Container>
@@ -131,20 +150,23 @@ export default function Login(): JSX.Element {
 }
 
 function LoginForm(): JSX.Element {
-    // Stateful variables
+    // Error message Stateful Variables
     const [showEmailError, setShowEmailError] = useState(false);
     const [showPasswordError, setShowPasswordError] = useState(false);
+    const [credentialsError, setCredentialsError] = useState(false);
+    const [currentEmailError, setCurrentEmailError] = useState("Can't be empty");
+
+    // Input Refs
     const inputEmailRef = useRef<HTMLInputElement>(null);
     const inputPasswordRef = useRef<HTMLInputElement>(null);
 
-    // Handle error messages with stateful variables?
-    const [currentEmailError, setCurrentEmailError] = useState("Can't be empty");
-
-    const navigate = useNavigate();
-
+    // Input Refs functions
     const onEmailClick = (event: Event) => {
         if (showEmailError) {
             setShowEmailError(false);
+        }
+        if (credentialsError) {
+            setCredentialsError(false);
         }
     };
 
@@ -152,15 +174,30 @@ function LoginForm(): JSX.Element {
         if (showPasswordError) {
             setShowPasswordError(false);
         }
+        if (credentialsError) {
+            setCredentialsError(false);
+        }
     };
 
     useEventListener("click", onEmailClick, inputEmailRef);
     useEventListener("click", onPasswordClick, inputPasswordRef);
 
-    function isValidEmail(email: string) {
-        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    // Hooks
+    const navigate = useNavigate();
+    let auth = useAuth();
+
+    // Check if user is already signed in
+    if (auth?.user) {
+        // Redirects user to main page
+        return <Navigate to="/" />;
     }
 
+    // RegExp email check
+    function isValidEmail(email: string) {
+        return /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    }
+
+    // On Log in submit function
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const target = e.target as typeof e.target & {
@@ -196,19 +233,21 @@ function LoginForm(): JSX.Element {
         try {
             // Get response from form input
             await UserService.login(user);
-
-            // Redirect user to main page after successful login
-            navigate("/");
+            console.log("user logged in");
+            // Signs in user and redirect user to main page after successful login
+            auth.login(user.email, () => navigate("/"));
         } catch (error) {
             // Shows error of incorrect credentials
-            setCurrentEmailError("Incorrect credentials");
-            setShowEmailError(true);
+            setCredentialsError(true);
         }
     };
 
     return (
         <form onSubmit={handleSubmit} action="/login" method="post">
             <div style={{ marginBottom: "24px", position: "relative" }}>
+                {credentialsError && (
+                    <CredentialsError className="body-m">Invalid Credentials</CredentialsError>
+                )}
                 <Input
                     ref={inputEmailRef}
                     type="text"
