@@ -1,6 +1,5 @@
 import React from "react";
 import { useSessionStorage } from "usehooks-ts";
-import AuthControl from "../auth";
 
 interface AuthContextType {
     user: any;
@@ -14,17 +13,14 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     const [user, setUser] = useSessionStorage<any>("user", null);
 
     let login = (newUser: string, callback: VoidFunction) => {
-        return AuthControl.login(() => {
-            setUser(newUser);
-            callback();
-        });
+        console.log("this has to execute or else setUser will never be invoked")
+        setUser(newUser);
+        callback();
     };
 
     let logout = (callback: VoidFunction) => {
-        return AuthControl.logout(() => {
-            setUser(null);
-            callback();
-        });
+        setUser(null);
+        callback();
     };
 
     let value = { user, login, logout };

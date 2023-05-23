@@ -233,11 +233,20 @@ function LoginForm(): JSX.Element {
         try {
             // Get response from form input
             await UserService.login(user);
-            console.log("user logged in");
+
             // Signs in user and redirect user to main page after successful login
-            auth.login(user.email, () => navigate("/"));
+            console.log("Before auth login");
+            console.log(user.email);
+            auth?.login(user.email, () => {
+                console.log("is this executing?");
+                navigate("/");
+            });
+            console.log("after auth login");
+            console.log(auth?.user)
         } catch (error) {
             // Shows error of incorrect credentials
+
+            console.log("Error catched");
             setCredentialsError(true);
         }
     };

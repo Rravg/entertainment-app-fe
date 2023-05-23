@@ -10,14 +10,21 @@ import Signup from "./components/Signup";
 import NoMatch from "./components/NoMatch";
 import NavBar from "./components/NavBar";
 import Main from "./components/Main";
-import AuthProvider, { useAuth } from "./components/AuthProvider";
+import { useAuth } from "./components/AuthProvider";
 
 function App() {
     return (
         <div className="App">
             <Routes>
                 <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />} />
+                    <Route
+                        index
+                        element={
+                            <RequireAuth>
+                                <Home />
+                            </RequireAuth>
+                        }
+                    />
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
                     <Route path="*" element={<NoMatch />} />
@@ -34,21 +41,17 @@ function Layout() {
 function Home() {
     const [currentPage, setCurrentPage] = useState<Pages>({ page: "Home" });
     return (
-        <AuthProvider>
-            <RequireAuth>
-                <>
-                    <NavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-                    <Main currentPage={currentPage} />
-                </>
-            </RequireAuth>
-        </AuthProvider>
+        <>
+            <NavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <Main currentPage={currentPage} />
+        </>
     );
 }
 
 function RequireAuth({ children }: { children: JSX.Element }): JSX.Element {
-    let auth = useAuth();
+    const auth = useAuth();
 
-    if (!auth.user) {
+    if (!auth?.user) {
         return <Navigate to="/login" />;
     }
 
