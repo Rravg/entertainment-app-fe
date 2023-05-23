@@ -19,7 +19,7 @@ export default class UserService {
         })
     }
 
-    public static logout(user: User) {
+    public static logout() {
         return axios.get("http://localhost:8080/logout");
     }
 }

@@ -183,8 +183,8 @@ function LoginForm(): JSX.Element {
     useEventListener("click", onPasswordClick, inputPasswordRef);
 
     // Hooks
+    const auth = useAuth();
     const navigate = useNavigate();
-    let auth = useAuth();
 
     // Check if user is already signed in
     if (auth?.user) {
@@ -235,18 +235,9 @@ function LoginForm(): JSX.Element {
             await UserService.login(user);
 
             // Signs in user and redirect user to main page after successful login
-            console.log("Before auth login");
-            console.log(user.email);
-            auth?.login(user.email, () => {
-                console.log("is this executing?");
-                navigate("/");
-            });
-            console.log("after auth login");
-            console.log(auth?.user)
+            auth?.login(user.email, () => navigate("/"));
         } catch (error) {
             // Shows error of incorrect credentials
-
-            console.log("Error catched");
             setCredentialsError(true);
         }
     };

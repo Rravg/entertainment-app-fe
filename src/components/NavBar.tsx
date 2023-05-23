@@ -3,6 +3,9 @@ import styled from "styled-components";
 import logo from "../assets/logo.svg";
 import avatar from "../assets/image-avatar.png";
 import { useState } from "react";
+import { useAuth } from "./AuthProvider";
+import { useNavigate } from "react-router-dom";
+import UserService from "../services/UserService";
 
 const Navigation = styled.nav`
     height: 56px;
@@ -143,7 +146,12 @@ interface Props {
 }
 
 export default function NavBar({ currentPage, setCurrentPage }: Props): JSX.Element {
+    // State variables
     const [showMenu, setShowMenu] = useState(false);
+
+    // Hooks
+    const auth = useAuth();
+    const navigate = useNavigate();
 
     const setHome = () => {
         setCurrentPage({ page: "Home" });
@@ -159,6 +167,13 @@ export default function NavBar({ currentPage, setCurrentPage }: Props): JSX.Elem
 
     const setBookmarked = () => {
         setCurrentPage({ page: "Bookmarked" });
+    };
+
+    const handleClick = async () => {
+        try {
+            await UserService.logout();
+            auth.logout(() => navigate("/login"));
+        } catch (error) {}
     };
 
     return (
@@ -211,7 +226,7 @@ export default function NavBar({ currentPage, setCurrentPage }: Props): JSX.Elem
                 <Avatar src={avatar} alt="" />
                 {showMenu && (
                     <FloatMenu>
-                        <MenuItem className="body-s" href="/">
+                        <MenuItem onClick={handleClick} className="body-s" href="/">
                             Logout
                         </MenuItem>
                     </FloatMenu>

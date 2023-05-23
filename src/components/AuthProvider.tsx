@@ -13,7 +13,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     const [user, setUser] = useSessionStorage<any>("user", null);
 
     let login = (newUser: string, callback: VoidFunction) => {
-        console.log("this has to execute or else setUser will never be invoked")
         setUser(newUser);
         callback();
     };
