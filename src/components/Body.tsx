@@ -55,6 +55,7 @@ export default function Body({ currentPage }: Props): JSX.Element {
     let section;
     let items;
 
+    // Sets section title depending on the current page
     if (currentPage.page === "Home") {
         section = <Section className="heading-l">Recommended for you</Section>;
     } else if (currentPage.page === "Movies") {
@@ -63,20 +64,22 @@ export default function Body({ currentPage }: Props): JSX.Element {
         section = <Section className="heading-l">TV Series</Section>;
     }
 
+    // Fetches all the titles/items from the database and Renders them by calling Thumbnail
     items = data.map((item, i) => {
         if (!item.isTrending && currentPage.page === "Home") {
-            return <Thumbnail item={item} />;
+            return <Thumbnail item={item} key={i} />;
         } else if (!item.isTrending && currentPage.page === "Movies" && item.category === "Movie") {
-            return <Thumbnail item={item} />;
+            return <Thumbnail item={item} key={i} />;
         } else if (
             !item.isTrending &&
             currentPage.page === "Series" &&
             item.category === "TV Series"
         ) {
-            return <Thumbnail item={item} />;
+            return <Thumbnail item={item} key={i} />;
         }
     });
 
+    // Differentiates Bookmarked page from the others
     if (currentPage.page !== "Bookmarked") {
         return (
             <Container>
@@ -91,7 +94,7 @@ export default function Body({ currentPage }: Props): JSX.Element {
                 <Grid style={{ marginBottom: "40px" }}>
                     {data.map((item, i) => {
                         if (item.isBookmarked && item.category === "Movie") {
-                            return <Thumbnail item={item} />;
+                            return <Thumbnail item={item} key={i} />;
                         }
                     })}
                 </Grid>
@@ -100,7 +103,7 @@ export default function Body({ currentPage }: Props): JSX.Element {
                 <Grid>
                     {data.map((item, i) => {
                         if (item.isBookmarked && item.category === "TV Series") {
-                            return <Thumbnail item={item} />;
+                            return <Thumbnail item={item} key={i} />;
                         }
                     })}
                 </Grid>

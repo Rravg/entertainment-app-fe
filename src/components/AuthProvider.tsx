@@ -7,8 +7,10 @@ interface AuthContextType {
     logout: (callback: VoidFunction) => void;
 }
 
+// Creats Context
 let AuthContext = React.createContext<AuthContextType>(null!);
 
+// AuthContext Provider
 export default function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element {
     const [user, setUser] = useSessionStorage<any>("user", null);
 
@@ -27,6 +29,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
+// Exports Auth hook to change AuthContext value
 export function useAuth() {
     return React.useContext(AuthContext);
 }

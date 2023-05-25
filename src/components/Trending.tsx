@@ -11,7 +11,6 @@ import TrendingThumbnail from "./TrendingThumbnail";
 // Import images
 import data from "../data.json";
 
-
 const Container = styled.div`
     margin-bottom: 24px;
 
@@ -83,6 +82,7 @@ export default function Trending(): JSX.Element {
                                 category={item.category === "TV Series" ? "TV Series" : "Movie"}
                                 rating={item.rating}
                                 isBookmarked={item.isBookmarked}
+                                key={i}
                             />
                         );
                     }
