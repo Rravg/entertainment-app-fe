@@ -146,7 +146,7 @@ const Dot = styled.div`
 `;
 
 interface Props {
-    item: Item;
+    item: Title;
 }
 
 export default function Thumbnail({ item }: Props): JSX.Element {
@@ -156,18 +156,18 @@ export default function Thumbnail({ item }: Props): JSX.Element {
     const desktopSize = useMediaQuery("(min-width: 1440px)");
 
     if (desktopSize) {
-        thumbnailImage = <Image src={item.thumbnail.regular.large} />;
+        thumbnailImage = <Image src={item.regularLarge} />;
     } else if (tabletSize) {
-        thumbnailImage = <Image src={item.thumbnail.regular.medium} />;
+        thumbnailImage = <Image src={item.regularMedium} />;
     } else {
-        thumbnailImage = <Image src={item.thumbnail.regular.small} />;
+        thumbnailImage = <Image src={item.regularSmall} />;
     }
 
     return (
         <Container>
             {thumbnailImage}
             <IconContainer>
-                <BookmarkIcon isBookmarked={item.isBookmarked} />
+                <BookmarkIcon isBookmarked={false} />
             </IconContainer>
             <Play className="play-button">
                 <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
@@ -192,7 +192,7 @@ export default function Thumbnail({ item }: Props): JSX.Element {
                     <Dot />
                     <Data className="body-m">{item.rating}</Data>
                 </DataContainer>
-                <Title className="heading-s">{item.title}</Title>
+                <Title className="heading-s">{item.name}</Title>
             </Description>
         </Container>
     );

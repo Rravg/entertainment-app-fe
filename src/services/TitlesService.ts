@@ -1,6 +1,6 @@
 import axios from "../api/axios";
 
-export default class TitlesController {
+export default class TitlesService {
 
     // get all titles
     public static getAll() {

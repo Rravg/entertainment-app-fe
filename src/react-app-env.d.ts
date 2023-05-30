@@ -23,6 +23,20 @@ interface Item {
     isTrending: boolean
 }
 
+interface Title {
+    category: string;
+    id: number;
+    isTrending: boolean;
+    name: string;
+    rating: string;
+    regularLarge: string;
+    regularMedium: string;
+    regularSmall: string;
+    trendingLarge: string;
+    trendingSmall: string;
+    year: number;
+}
+
 interface User {
     email: string;
     password: string;

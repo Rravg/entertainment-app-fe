@@ -1,7 +1,10 @@
 /* eslint-disable array-callback-return */
 import styled from "styled-components";
-import data from "../data.json";
+// import data from "../data.json";
 import Thumbnail from "./Thumbnail";
+import TitlesService from "../services/TitlesService";
+import { useEffectOnce } from "usehooks-ts";
+import { useState } from "react";
 
 const Container = styled.div`
     /* background-color: salmon; */
@@ -54,6 +57,7 @@ interface Props {
 export default function Body({ currentPage }: Props): JSX.Element {
     let section;
     let items;
+    const [data, setData] = useState<Title[]>([]);
 
     // Sets section title depending on the current page
     if (currentPage.page === "Home") {
@@ -64,8 +68,22 @@ export default function Body({ currentPage }: Props): JSX.Element {
         section = <Section className="heading-l">TV Series</Section>;
     }
 
+    // Get titles from database
+    const getTitles = async () => {
+        try {
+            let response = await TitlesService.getAll();
+            setData(response.data);
+        } catch (error) {
+            // Handle error // Probably redirect to error page
+        }
+    };
+
+    useEffectOnce(() => {
+        getTitles();
+    });
+
     // Fetches all the titles/items from the database and Renders them by calling Thumbnail
-    items = data.map((item, i) => {
+    items = data.map((item: Title, i: number) => {
         if (!item.isTrending && currentPage.page === "Home") {
             return <Thumbnail item={item} key={i} />;
         } else if (!item.isTrending && currentPage.page === "Movies" && item.category === "Movie") {
@@ -92,8 +110,9 @@ export default function Body({ currentPage }: Props): JSX.Element {
             <Container>
                 <Section className="heading-l">Bookmarked Movies</Section>
                 <Grid style={{ marginBottom: "40px" }}>
-                    {data.map((item, i) => {
-                        if (item.isBookmarked && item.category === "Movie") {
+                    {data!.map((item: Title, i: number) => {
+                        // add item.isBookmarked
+                        if (false && item.category === "Movie") {
                             return <Thumbnail item={item} key={i} />;
                         }
                     })}
@@ -101,8 +120,9 @@ export default function Body({ currentPage }: Props): JSX.Element {
 
                 <Section className="heading-l">Bookmarked TV Series</Section>
                 <Grid>
-                    {data.map((item, i) => {
-                        if (item.isBookmarked && item.category === "TV Series") {
+                    {data!.map((item: Title, i: number) => {
+                        // add item.isBookmarked
+                        if (false && item.category === "TV Series") {
                             return <Thumbnail item={item} key={i} />;
                         }
                     })}
