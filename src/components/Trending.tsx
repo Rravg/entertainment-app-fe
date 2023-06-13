@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import styled from "styled-components";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // Hooks
 import { useDraggable } from "react-use-draggable-scroll";
@@ -9,7 +9,8 @@ import { useDraggable } from "react-use-draggable-scroll";
 import TrendingThumbnail from "./TrendingThumbnail";
 
 // Import images
-import data from "../data.json";
+import TitlesService from "../services/TitlesService";
+import { useEffectOnce } from "usehooks-ts";
 
 const Container = styled.div`
     margin-bottom: 24px;
@@ -61,10 +62,26 @@ const Carousel = styled.div`
 `;
 
 export default function Trending(): JSX.Element {
+    const [data, setData] = useState<Title[]>([]);
+
     const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
     const { events } = useDraggable(ref, {
         applyRubberBandEffect: true,
         activeMouseButton: "Left",
+    });
+
+    // Get titles from database on first render
+    const getTitles = async () => {
+        try {
+            let response = await TitlesService.getTrending();
+            setData(response.data);
+        } catch (error) {
+            // Handle error // Probably redirect to error page
+        }
+    };
+
+    useEffectOnce(() => {
+        getTitles();
     });
 
     return (
@@ -75,13 +92,13 @@ export default function Trending(): JSX.Element {
                     if (item.isTrending) {
                         return (
                             <TrendingThumbnail
-                                imageLarge={item.thumbnail.trending?.large}
-                                imageSmall={item.thumbnail.trending?.small}
-                                title={item.title}
+                                imageLarge={item.trendingLarge}
+                                imageSmall={item.trendingSmall}
+                                title={item.name}
                                 year={item.year.toFixed()}
                                 category={item.category === "TV Series" ? "TV Series" : "Movie"}
                                 rating={item.rating}
-                                isBookmarked={item.isBookmarked}
+                                isBookmarked={false}
                                 key={i}
                             />
                         );

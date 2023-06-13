@@ -183,10 +183,11 @@ export default function TrendingThumbnail({
     rating,
     isBookmarked,
 }: Props): JSX.Element {
-    const tabletSize = useMediaQuery("(min-width: 768px)");
 
+    const tabletSize = useMediaQuery("(min-width: 768px)");
     const auth = useAuth();
 
+    // Sets title as bookmarked on backend
     const handleClick = async () => {
         try {
             let response = await BookmarkService.setBookmark(title, auth.user);
