@@ -55,9 +55,9 @@ interface Props {
 }
 
 export default function Body({ currentPage }: Props): JSX.Element {
+    const [data, setData] = useState<Title[]>([]);
     let section;
     let items;
-    const [data, setData] = useState<Title[]>([]);
 
     // Sets section title depending on the current page
     if (currentPage.page === "Home") {
@@ -68,7 +68,7 @@ export default function Body({ currentPage }: Props): JSX.Element {
         section = <Section className="heading-l">TV Series</Section>;
     }
 
-    // Get titles from database
+    // Get titles from database on first render
     const getTitles = async () => {
         try {
             let response = await TitlesService.getAll();

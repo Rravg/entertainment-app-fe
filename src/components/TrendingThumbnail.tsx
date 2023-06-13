@@ -5,6 +5,8 @@ import useMediaQuery from "../Hooks/useMediaQuery";
 import icon_category_movie from "../assets/icon-category-movie.svg";
 import icon_category_tv from "../assets/icon-category-tv.svg";
 import BookmarkIcon from "./BookmarkIcon";
+import { useAuth } from "./AuthProvider";
+import BookmarkService from "../services/BookmarkService";
 
 const ImageContainer = styled.div`
     cursor: pointer;
@@ -183,12 +185,22 @@ export default function TrendingThumbnail({
 }: Props): JSX.Element {
     const tabletSize = useMediaQuery("(min-width: 768px)");
 
+    const auth = useAuth();
+
+    const handleClick = async () => {
+        try {
+            let response = await BookmarkService.setBookmark(title, auth.user);
+        } catch (error) {}
+    };
+
     return (
         <ImageContainer>
             <Image src={tabletSize ? imageLarge : imageSmall} alt="" />
-            <IconContainer>
+
+            <IconContainer onClick={handleClick}>
                 <BookmarkIcon isBookmarked={isBookmarked} />
             </IconContainer>
+
             <Description>
                 <DataContainer>
                     <Data className="body-m">{year}</Data>
