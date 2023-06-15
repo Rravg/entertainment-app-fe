@@ -7,6 +7,7 @@ import icon_category_tv from "../assets/icon-category-tv.svg";
 import BookmarkIcon from "./BookmarkIcon";
 import { useAuth } from "./AuthProvider";
 import BookmarkService from "../services/BookmarkService";
+import { useState } from "react";
 
 const ImageContainer = styled.div`
     cursor: pointer;
@@ -183,7 +184,6 @@ export default function TrendingThumbnail({
     rating,
     isBookmarked,
 }: Props): JSX.Element {
-
     const tabletSize = useMediaQuery("(min-width: 768px)");
     const auth = useAuth();
 

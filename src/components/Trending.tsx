@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import styled from "styled-components";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Hooks
 import { useDraggable } from "react-use-draggable-scroll";
@@ -11,6 +11,7 @@ import TrendingThumbnail from "./TrendingThumbnail";
 // Import images
 import TitlesService from "../services/TitlesService";
 import { useEffectOnce } from "usehooks-ts";
+import { useAuth } from "./AuthProvider";
 
 const Container = styled.div`
     margin-bottom: 24px;
@@ -62,7 +63,7 @@ const Carousel = styled.div`
 `;
 
 export default function Trending(): JSX.Element {
-    const [data, setData] = useState<Title[]>([]);
+    const [data, setData] = useState<Item[]>([]);
 
     const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
     const { events } = useDraggable(ref, {
@@ -70,10 +71,12 @@ export default function Trending(): JSX.Element {
         activeMouseButton: "Left",
     });
 
+    const auth = useAuth();
+
     // Get titles from database on first render
     const getTitles = async () => {
         try {
-            let response = await TitlesService.getTrending();
+            let response = await TitlesService.getTrending(auth.user);
             setData(response.data);
         } catch (error) {
             // Handle error // Probably redirect to error page
@@ -92,13 +95,14 @@ export default function Trending(): JSX.Element {
                     if (item.isTrending) {
                         return (
                             <TrendingThumbnail
-                                imageLarge={item.trendingLarge}
-                                imageSmall={item.trendingSmall}
-                                title={item.name}
+                                imageLarge={item.thumbnail.trending?.large}
+                                imageSmall={item.thumbnail.trending?.small}
+                                title={item.title}
                                 year={item.year.toFixed()}
                                 category={item.category === "TV Series" ? "TV Series" : "Movie"}
                                 rating={item.rating}
-                                isBookmarked={false}
+                                isBookmarked={item.isBookmarked}
+             
                                 key={i}
                             />
                         );

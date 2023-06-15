@@ -8,7 +8,11 @@ export default class TitlesService {
     }
 
     // get trending titles 
-    public static getTrending() {
-        return axios.get("http://localhost:8080/trending");
+    public static getTrending(email: string) {
+        return axios.put("http://localhost:8080/trending", { email }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     }
 }

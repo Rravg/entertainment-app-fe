@@ -1,8 +1,6 @@
 import axios from "../api/axios";
-import { useAuth } from "../components/AuthProvider";
 
 export default class BookmarkService {
-
 
     // bookmark title   
     public static setBookmark(name: string, email: string) {
