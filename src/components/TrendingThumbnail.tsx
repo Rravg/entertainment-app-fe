@@ -173,6 +173,8 @@ interface Props {
     category: "Movie" | "TV Series";
     rating: string;
     isBookmarked: boolean;
+
+    setData: React.Dispatch<React.SetStateAction<Item[]>>;
 }
 
 export default function TrendingThumbnail({
@@ -183,6 +185,7 @@ export default function TrendingThumbnail({
     category,
     rating,
     isBookmarked,
+    setData,
 }: Props): JSX.Element {
     const tabletSize = useMediaQuery("(min-width: 768px)");
     const auth = useAuth();
@@ -191,6 +194,7 @@ export default function TrendingThumbnail({
     const handleClick = async () => {
         try {
             let response = await BookmarkService.setBookmark(title, auth.user);
+            setData(response.data);
         } catch (error) {}
     };
 

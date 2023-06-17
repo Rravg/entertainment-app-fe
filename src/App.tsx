@@ -29,7 +29,6 @@ function App() {
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
                     <Route path="*" element={<NoMatch />} />
-                    <Route path="/test" element={<TestRoom />} />
                 </Route>
             </Routes>
         </div>
@@ -58,19 +57,6 @@ function RequireAuth({ children }: { children: JSX.Element }): JSX.Element {
     }
 
     return children;
-}
-
-function TestRoom() {
-    const handleClick = async () => {
-        let response = await TitlesServices.getAll();
-        let titles = response.data as (typeof Object)[];
-
-        titles.forEach((element) => {
-            console.log(element);
-        });
-    };
-
-    return <button style={{ height: "50px" }} onClick={handleClick}>Get Titles</button>;
 }
 
 export default App;

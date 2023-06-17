@@ -5,6 +5,7 @@ import Thumbnail from "./Thumbnail";
 import TitlesService from "../services/TitlesService";
 import { useEffectOnce } from "usehooks-ts";
 import { useState } from "react";
+import { useAuth } from "./AuthProvider";
 
 const Container = styled.div`
     /* background-color: salmon; */
@@ -55,9 +56,11 @@ interface Props {
 }
 
 export default function Body({ currentPage }: Props): JSX.Element {
-    const [data, setData] = useState<Title[]>([]);
+    const [data, setData] = useState<Item[]>([]);
     let section;
     let items;
+
+    let auth = useAuth();
 
     // Sets section title depending on the current page
     if (currentPage.page === "Home") {
@@ -71,7 +74,7 @@ export default function Body({ currentPage }: Props): JSX.Element {
     // Get titles from database on first render
     const getTitles = async () => {
         try {
-            let response = await TitlesService.getAll();
+            let response = await TitlesService.getAll(auth.user);
             setData(response.data);
         } catch (error) {
             // Handle error // Probably redirect to error page
@@ -83,17 +86,17 @@ export default function Body({ currentPage }: Props): JSX.Element {
     });
 
     // Fetches all the titles/items from the database and Renders them by calling Thumbnail
-    items = data.map((item: Title, i: number) => {
+    items = data.map((item: Item, i: number) => {
         if (!item.isTrending && currentPage.page === "Home") {
-            return <Thumbnail item={item} key={i} />;
+            return <Thumbnail item={item} setData={setData} key={i} />;
         } else if (!item.isTrending && currentPage.page === "Movies" && item.category === "Movie") {
-            return <Thumbnail item={item} key={i} />;
+            return <Thumbnail item={item} setData={setData} key={i} />;
         } else if (
             !item.isTrending &&
             currentPage.page === "Series" &&
             item.category === "TV Series"
         ) {
-            return <Thumbnail item={item} key={i} />;
+            return <Thumbnail item={item} setData={setData} key={i} />;
         }
     });
 
@@ -110,20 +113,18 @@ export default function Body({ currentPage }: Props): JSX.Element {
             <Container>
                 <Section className="heading-l">Bookmarked Movies</Section>
                 <Grid style={{ marginBottom: "40px" }}>
-                    {data!.map((item: Title, i: number) => {
-                        // add item.isBookmarked
-                        if (false && item.category === "Movie") {
-                            return <Thumbnail item={item} key={i} />;
+                    {data!.map((item: Item, i: number) => {
+                        if (item.isBookmarked && item.category === "Movie") {
+                            return <Thumbnail item={item} setData={setData} key={i} />;
                         }
                     })}
                 </Grid>
 
                 <Section className="heading-l">Bookmarked TV Series</Section>
                 <Grid>
-                    {data!.map((item: Title, i: number) => {
-                        // add item.isBookmarked
-                        if (false && item.category === "TV Series") {
-                            return <Thumbnail item={item} key={i} />;
+                    {data!.map((item: Item, i: number) => {
+                        if (item.isBookmarked && item.category === "TV Series") {
+                            return <Thumbnail item={item} setData={setData} key={i} />;
                         }
                     })}
                 </Grid>

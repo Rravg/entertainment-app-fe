@@ -102,7 +102,7 @@ export default function Trending(): JSX.Element {
                                 category={item.category === "TV Series" ? "TV Series" : "Movie"}
                                 rating={item.rating}
                                 isBookmarked={item.isBookmarked}
-             
+                                setData={setData}
                                 key={i}
                             />
                         );

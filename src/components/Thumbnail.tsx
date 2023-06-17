@@ -5,6 +5,8 @@ import icon_category_tv from "../assets/icon-category-tv.svg";
 
 import useMediaQuery from "../Hooks/useMediaQuery";
 import BookmarkIcon from "./BookmarkIcon";
+import BookmarkService from "../services/BookmarkService";
+import { useAuth } from "./AuthProvider";
 
 const Container = styled.div`
     margin: 0 auto;
@@ -146,28 +148,39 @@ const Dot = styled.div`
 `;
 
 interface Props {
-    item: Title;
+    item: Item;
+
+    setData: React.Dispatch<React.SetStateAction<Item[]>>;
 }
 
-export default function Thumbnail({ item }: Props): JSX.Element {
+export default function Thumbnail({ item, setData }: Props): JSX.Element {
     let thumbnailImage;
 
     const tabletSize = useMediaQuery("(min-width: 768px)");
     const desktopSize = useMediaQuery("(min-width: 1440px)");
 
     if (desktopSize) {
-        thumbnailImage = <Image src={item.regularLarge} />;
+        thumbnailImage = <Image src={item.thumbnail.regular.large} />;
     } else if (tabletSize) {
-        thumbnailImage = <Image src={item.regularMedium} />;
+        thumbnailImage = <Image src={item.thumbnail.regular.medium} />;
     } else {
-        thumbnailImage = <Image src={item.regularSmall} />;
+        thumbnailImage = <Image src={item.thumbnail.regular.small} />;
     }
+
+    let auth = useAuth();
+
+    const handleClick = async () => {
+        try {
+            let response = await BookmarkService.setBookmark(item.title, auth.user);
+            setData(response.data);
+        } catch (error) {}
+    };
 
     return (
         <Container>
             {thumbnailImage}
-            <IconContainer>
-                <BookmarkIcon isBookmarked={false} />
+            <IconContainer onClick={handleClick}>
+                <BookmarkIcon isBookmarked={item.isBookmarked} />
             </IconContainer>
             <Play className="play-button">
                 <svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
@@ -192,7 +205,7 @@ export default function Thumbnail({ item }: Props): JSX.Element {
                     <Dot />
                     <Data className="body-m">{item.rating}</Data>
                 </DataContainer>
-                <Title className="heading-s">{item.name}</Title>
+                <Title className="heading-s">{item.title}</Title>
             </Description>
         </Container>
     );
