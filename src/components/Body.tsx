@@ -53,10 +53,12 @@ const Grid = styled.div`
 
 interface Props {
     currentPage: Pages;
+
+    data: Item[];
+    setData: React.Dispatch<React.SetStateAction<Item[]>>;
 }
 
-export default function Body({ currentPage }: Props): JSX.Element {
-    const [data, setData] = useState<Item[]>([]);
+export default function Body({ currentPage, data, setData }: Props): JSX.Element {
     let section;
     let items;
 

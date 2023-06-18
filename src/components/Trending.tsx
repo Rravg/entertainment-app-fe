@@ -62,9 +62,12 @@ const Carousel = styled.div`
     }
 `;
 
-export default function Trending(): JSX.Element {
-    const [data, setData] = useState<Item[]>([]);
+interface Props {
+    data: Item[];
+    setData: React.Dispatch<React.SetStateAction<Item[]>>;
+}
 
+export default function Trending({ data, setData }: Props): JSX.Element {
     const ref = useRef<HTMLDivElement>() as React.MutableRefObject<HTMLDivElement>;
     const { events } = useDraggable(ref, {
         applyRubberBandEffect: true,
@@ -76,7 +79,7 @@ export default function Trending(): JSX.Element {
     // Get titles from database on first render
     const getTitles = async () => {
         try {
-            let response = await TitlesService.getTrending(auth.user);
+            let response = await TitlesService.getAll(auth.user);
             setData(response.data);
         } catch (error) {
             // Handle error // Probably redirect to error page

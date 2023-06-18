@@ -3,6 +3,7 @@ import Body from "./Body";
 
 import SearchBar from "./SearchBar";
 import Trending from "./Trending";
+import { useState } from "react";
 
 const Container = styled.div`
     width: 100%;
@@ -24,11 +25,13 @@ interface Props {
 }
 
 export default function Main({ currentPage }: Props): JSX.Element {
+    const [data, setData] = useState<Item[]>([]);
+
     return (
         <Container>
             <SearchBar />
-            {currentPage.page === "Home" && <Trending />}
-            <Body currentPage={currentPage} />
+            {currentPage.page === "Home" && <Trending data={data} setData={setData} />}
+            <Body currentPage={currentPage} data={data} setData={setData} />
         </Container>
     );
 }

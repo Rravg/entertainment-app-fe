@@ -11,7 +11,6 @@ import NoMatch from "./components/NoMatch";
 import NavBar from "./components/NavBar";
 import Main from "./components/Main";
 import { useAuth } from "./components/AuthProvider";
-import TitlesServices from "./services/TitlesService";
 
 function App() {
     return (
