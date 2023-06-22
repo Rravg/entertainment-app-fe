@@ -19,4 +19,15 @@ export default class TitlesService {
             }
         });
     }
+
+    public static getSearch(email: string, keyword: string) {
+        return axios.put("http://localhost:8080/search", { email }, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: {
+                search: keyword
+            }
+        })
+    }
 }

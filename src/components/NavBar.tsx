@@ -153,7 +153,7 @@ export default function NavBar({ currentPage, setCurrentPage }: Props): JSX.Elem
     const auth = useAuth();
     const navigate = useNavigate();
 
-    // Functions that set current home
+    // Functions that set current page
     const setHome = () => {
         setCurrentPage({ page: "Home" });
     };

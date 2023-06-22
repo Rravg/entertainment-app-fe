@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Thumbnail from "./Thumbnail";
 import TitlesService from "../services/TitlesService";
 import { useEffectOnce } from "usehooks-ts";
-import { useState } from "react";
 import { useAuth } from "./AuthProvider";
 
 const Container = styled.div`
@@ -53,24 +52,29 @@ const Grid = styled.div`
 
 interface Props {
     currentPage: Pages;
-
     data: Item[];
     setData: React.Dispatch<React.SetStateAction<Item[]>>;
+    keyword: string;
 }
 
-export default function Body({ currentPage, data, setData }: Props): JSX.Element {
+export default function Body({ currentPage, data, setData, keyword }: Props): JSX.Element {
     let section;
     let items;
-
+    let dataLength;
     let auth = useAuth();
 
     // Sets section title depending on the current page
     if (currentPage.page === "Home") {
+        dataLength = data.length;
         section = <Section className="heading-l">Recommended for you</Section>;
     } else if (currentPage.page === "Movies") {
+        dataLength = data.filter((element) => element.category === "Movie").length;
         section = <Section className="heading-l">Movies</Section>;
     } else if (currentPage.page === "Series") {
+        dataLength = data.filter((element) => element.category === "TV Series").length;
         section = <Section className="heading-l">TV Series</Section>;
+    } else if (currentPage.page === "Bookmarked") {
+        dataLength = data.filter((element) => element.isBookmarked).length;
     }
 
     // Get titles from database on first render
@@ -103,29 +107,54 @@ export default function Body({ currentPage, data, setData }: Props): JSX.Element
     });
 
     // Differentiates Bookmarked page from the others
-    if (currentPage.page !== "Bookmarked") {
-        return (
-            <Container>
-                {section}
-                <Grid>{items}</Grid>
-            </Container>
-        );
+    if (keyword === "") {
+        if (currentPage.page !== "Bookmarked") {
+            return (
+                <Container>
+                    {section}
+                    <Grid>{items}</Grid>
+                </Container>
+            );
+        } else {
+            return (
+                <Container>
+                    <Section className="heading-l">Bookmarked Movies</Section>
+                    <Grid style={{ marginBottom: "40px" }}>
+                        {data!.map((item: Item, i: number) => {
+                            if (item.isBookmarked && item.category === "Movie") {
+                                return <Thumbnail item={item} setData={setData} key={i} />;
+                            }
+                        })}
+                    </Grid>
+
+                    <Section className="heading-l">Bookmarked TV Series</Section>
+                    <Grid>
+                        {data!.map((item: Item, i: number) => {
+                            if (item.isBookmarked && item.category === "TV Series") {
+                                return <Thumbnail item={item} setData={setData} key={i} />;
+                            }
+                        })}
+                    </Grid>
+                </Container>
+            );
+        }
     } else {
         return (
             <Container>
-                <Section className="heading-l">Bookmarked Movies</Section>
-                <Grid style={{ marginBottom: "40px" }}>
-                    {data!.map((item: Item, i: number) => {
-                        if (item.isBookmarked && item.category === "Movie") {
-                            return <Thumbnail item={item} setData={setData} key={i} />;
-                        }
-                    })}
-                </Grid>
-
-                <Section className="heading-l">Bookmarked TV Series</Section>
+                <Section className="heading-l">
+                    <span>
+                        Found {dataLength} results for '{keyword}'
+                    </span>
+                </Section>
                 <Grid>
                     {data!.map((item: Item, i: number) => {
-                        if (item.isBookmarked && item.category === "TV Series") {
+                        if (currentPage.page === "Home") {
+                            return <Thumbnail item={item} setData={setData} key={i} />;
+                        } else if (currentPage.page === "Movies" && item.category === "Movie") {
+                            return <Thumbnail item={item} setData={setData} key={i} />;
+                        } else if (currentPage.page === "Series" && item.category === "TV Series") {
+                            return <Thumbnail item={item} setData={setData} key={i} />;
+                        } else if (currentPage.page === "Bookmarked" && item.isBookmarked) {
                             return <Thumbnail item={item} setData={setData} key={i} />;
                         }
                     })}

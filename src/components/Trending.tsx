@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 // Hooks
 import { useDraggable } from "react-use-draggable-scroll";

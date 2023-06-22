@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import icon from "../assets/icon-search.svg";
+import { ChangeEvent, useEffect } from "react";
 
 const Container = styled.div`
     display: flex;
@@ -53,11 +54,49 @@ const Input = styled.input`
     }
 `;
 
-export default function SearchBar(): JSX.Element {
+interface Props {
+    onSearch: (keyword: string) => void;
+
+    keyword: string;
+    setKeyword: React.Dispatch<React.SetStateAction<string>>;
+    currentPage: Pages;
+}
+
+export default function SearchBar({
+    onSearch,
+    keyword,
+    setKeyword,
+    currentPage,
+}: Props): JSX.Element {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setKeyword(event.target.value);
+    };
+    let placeholder;
+    // Triggers onSearch request to the back-end on change of keyword
+    useEffect(() => {
+        onSearch(keyword);
+    }, [keyword, onSearch]);
+
+    // Sets placeholder depending on the current page
+    if (currentPage.page === "Home") {
+        placeholder = "Search for movies or TV series";
+    } else if (currentPage.page === "Movies") {
+        placeholder = "Search for movies";
+    } else if (currentPage.page === "Series") {
+        placeholder = "Search for TV series";
+    } else if (currentPage.page === "Bookmarked") {
+        placeholder = "Search for bookmarked shows";
+    }
     return (
         <Container>
             <Icon src={icon} alt="" />
-            <Input type="text" className="heading-m" placeholder="Search for movies or TV series" />
+            <Input
+                type="text"
+                className="heading-m"
+                placeholder={placeholder}
+                onChange={handleInputChange}
+            />
+            )
         </Container>
     );
 }
