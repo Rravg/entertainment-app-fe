@@ -75,11 +75,13 @@ export default function Body({ currentPage, data, setData, keyword }: Props): JS
         section = <Section className="heading-l">TV Series</Section>;
     } else if (currentPage.page === "Bookmarked") {
         dataLength = data.filter((element) => element.isBookmarked).length;
+        console.log(keyword);
     }
 
     // Get titles from database on first render
     const getTitles = async () => {
         try {
+
             let response = await TitlesService.getAll(auth.user);
             setData(response.data);
         } catch (error) {

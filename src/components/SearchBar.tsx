@@ -75,7 +75,8 @@ export default function SearchBar({
     // Triggers onSearch request to the back-end on change of keyword
     useEffect(() => {
         onSearch(keyword);
-    }, [keyword, onSearch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [keyword]);
 
     // Sets placeholder depending on the current page
     if (currentPage.page === "Home") {
